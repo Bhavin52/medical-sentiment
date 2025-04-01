@@ -1,0 +1,15 @@
+stages:
+  process_data:
+    cmd: python -m src.main
+    deps:
+      - data/raw/medical_data.csv
+    outs:
+      - data/processed/base_data.parquet
+      - models/production_model
+
+  train_model:
+    cmd: dvc repro process_data
+    deps:
+      - data/processed/base_data.parquet
+    outs:
+      - models/production_model.pkl
